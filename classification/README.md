@@ -8,12 +8,13 @@ Run with YOCO
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 -y \
 [your imagenet-folder with train and val folders]
 ```
-image-level aug
+or image-level aug
 ```
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 \
 [your imagenet-folder with train and val folders]
 ```
 ### CIFAR
+First
 ```
 cd cifar
 ```
@@ -21,7 +22,7 @@ Run with YOCO
 ```
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 -y
 ```
-image-level aug
+or image-level aug
 ```
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 
 ```
