@@ -40,7 +40,7 @@ For each quadruplet, we show the original input image, augmented image from imag
 ## Contact
 junlin.han@data61.csiro.au or junlinhcv@gmail.com
 
-If you tried YOCO in other tasks/datasets, please feel free to let me know the results. They will be collected and published here, regardless of positive or negative. Many thanks!
+If you tried YOCO in other tasks/datasets, please feel free to let me know the results. They will be collected and presented, regardless of positive or negative. Many thanks!
 
 ## Acknowledgments
 Our code is developed based on [official PyTorch ImageNet training code](https://github.com/pytorch/examples/tree/master/imagenet) and [MoCo](https://github.com/facebookresearch/moco). 
