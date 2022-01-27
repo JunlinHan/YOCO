@@ -32,6 +32,10 @@ This repo aims to be minimal modifications on [official PyTorch ImageNet trainin
 ```
 pip install timm
 ```
+## Images augmented with YOCO
+For each quadruplet, we show the original input image, augmented image from image-level augmentation, and two images from different cut dimensions produced by YOCO
+<img src='imgs/visu.png' align="middle" width=800>
+
 
 ## Contact
 junlin.han@data61.csiro.au or junlinhcv@gmail.com
