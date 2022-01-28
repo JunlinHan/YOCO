@@ -68,6 +68,9 @@ python main_lincls.py \
 
 See [./detection](detection).
 
+## Pre-trained models
+
+We provide our pre-trained YOCO contrastive learning pre-trained models at: https://drive.google.com/drive/folders/1CmZW6UoR-YESqQ00IMPE9fVDfYjBa5IZ?usp=sharing
 
 ### License
 
