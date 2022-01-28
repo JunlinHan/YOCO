@@ -46,6 +46,6 @@ For ImageNet-A, see [Natural Adversarial Examples](https://github.com/hendrycks/
 
 ## Pre-trained models
 
-We provide our ImageNet pre-trained models. 
+We provide our pre-trained YOCO ImageNet classification models at: https://drive.google.com/drive/folders/1CmZW6UoR-YESqQ00IMPE9fVDfYjBa5IZ?usp=sharing
 
 
