@@ -25,16 +25,23 @@ Overall, YOCO benefits almost all augmentations in multiple vision tasks (classi
 
 ## Easy usages
 ```
+***
 Input:
 images: images to be augmented
 aug: composed augmentation operations
 h: height of images
 w: width of images
+***
 
 def YOCO(images, aug, h, w):
     images = torch.cat((aug(images[:, :, :, 0:int(w/2)]), aug(images[:, :, :, int(w/2):w])), dim=3) if \
     torch.rand(1) > 0.5 else torch.cat((aug(images[:, :, 0:int(h/2), :]), aug(images[:, :, int(h/2):h, :])), dim=2)
     return images
+    
+transforms1 = torch.nn.Sequential(
+    transforms.RandomHorizontalFlip(), )
+images = YOCO(images, transforms1, 224, 224)
+
 ```
 
 ## Prerequisites
