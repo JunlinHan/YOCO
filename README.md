@@ -23,6 +23,20 @@ YOCO cuts one image into two equal pieces, either in the height or the width dim
 
 Overall, YOCO benefits almost all augmentations in multiple vision tasks (classification, contrastive learning, object detection, instance segmentation, image deraining, image super-resolution). Please see our paper for more. 
 
+## Easy usages
+```
+Input:
+images: images to be augmented
+aug: composed augmentation operations
+h: height of images
+w: width of images
+
+def YOCO(images, aug, h, w):
+    images = torch.cat((aug(images[:, :, :, 0:int(w/2)]), aug(images[:, :, :, int(w/2):w])), dim=3) if \
+    torch.rand(1) > 0.5 else torch.cat((aug(images[:, :, 0:int(h/2), :]), aug(images[:, :, int(h/2):h, :])), dim=2)
+    return images
+```
+
 ## Prerequisites
 
 This repo aims to be minimal modifications on [official PyTorch ImageNet training code](https://github.com/pytorch/examples/tree/master/imagenet) and [MoCo](https://github.com/facebookresearch/moco). Following their instructions to install the environments and prepare the datasets.
