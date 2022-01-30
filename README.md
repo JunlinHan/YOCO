@@ -43,7 +43,7 @@ def YOCO(images, aug, h, w):
 transforms1 = torch.nn.Sequential(
     transforms.RandomHorizontalFlip(), )
 _, _, h, w = images.shape
-images = YOCO(images, transforms1, 224, 224)
+images = YOCO(images, transforms1, h, w)
 
 ```
 
