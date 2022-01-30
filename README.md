@@ -36,12 +36,13 @@ def YOCO(images, aug, h, w):
     images = torch.cat((aug(images[:, :, :, 0:int(w/2)]), aug(images[:, :, :, int(w/2):w])), dim=3) if \
     torch.rand(1) > 0.5 else torch.cat((aug(images[:, :, 0:int(h/2), :]), aug(images[:, :, int(h/2):h, :])), dim=2)
     return images
+    
 for i, (images, target) in enumerate(train_loader):    
-  transforms = torch.nn.Sequential(
-    transforms.RandomHorizontalFlip(), )
-  _, _, h, w = images.shape
-  # perform augmentations with YOCO
-  images = YOCO(images, transforms, h, w) 
+    transforms = torch.nn.Sequential(
+      transforms.RandomHorizontalFlip(), )
+    _, _, h, w = images.shape
+    # perform augmentations with YOCO
+    images = YOCO(images, transforms, h, w) 
 ```
 
 ## Prerequisites
