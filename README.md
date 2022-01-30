@@ -1,6 +1,6 @@
 # You Only Cut Once (YOCO)
 
-YOCO is a simple method/strategy of performing augmentations, which enjoys the properties of parameter-free, easy usage, and boosting almost all augmentations for free. We hope our study will attract the community’s attention in revisiting how to perform data augmentations. 
+YOCO is a simple method/strategy of performing augmentations, which enjoys the properties of parameter-free, easy usage, and boosting almost all augmentations for free (negliable computation & memory cost). We hope our study will attract the community’s attention in revisiting how to perform data augmentations. 
 
 [You Only Cut Once: Boosting Data Augmentation with a Single Cut](https://arxiv.org/pdf/2108.11364.pdf)<br>
 [Junlin Han](https://junlinhan.github.io/), Pengfei Fang, Weihao Li, Jie Hong, Ali Armin, [Ian Reid](https://cs.adelaide.edu.au/~ianr/), [Lars Petersson](https://people.csiro.au/P/L/Lars-Petersson), [Hongdong Li](http://users.cecs.anu.edu.au/~hongdong/)<br>
@@ -24,6 +24,7 @@ YOCO cuts one image into two equal pieces, either in the height or the width dim
 Overall, YOCO benefits almost all augmentations in multiple vision tasks (classification, contrastive learning, object detection, instance segmentation, image deraining, image super-resolution). Please see our paper for more. 
 
 ## Easy usages
+Applying YOCO is quite easy, here is a demo code of performing YOCO at the batch level. 
 ```
 ***
 images: images to be augmented, here is tensor with (b,c,h,w) shape
