@@ -39,11 +39,11 @@ def YOCO(images, aug, h, w):
     return images
     
 for i, (images, target) in enumerate(train_loader):    
-    transforms = torch.nn.Sequential(
+    aug = torch.nn.Sequential(
       transforms.RandomHorizontalFlip(), )
     _, _, h, w = images.shape
     # perform augmentations with YOCO
-    images = YOCO(images, transforms, h, w) 
+    images = YOCO(images, aug, h, w) 
 ```
 
 ## Prerequisites
