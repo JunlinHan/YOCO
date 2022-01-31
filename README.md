@@ -11,7 +11,7 @@ Preprint
 @inproceedings{han2022yoco,
   title={You Only Cut Once: Boosting Data Augmentation with a Single Cut},
   author={Junlin Han and Pengfei Fang and Weihao Li and Jie Hong and Mohammad Ali Armin and and Ian Reid and Lars Petersson and Hongdong Li},
-  booktitle={arXiv preprint arXiv:2108.11364},
+  booktitle={arXiv preprint arXiv:2201.12078},
   year={2022}
 }
 ```
