@@ -3,7 +3,7 @@
 
 The `train_net.py` script reproduces the object detection experiments on Pascal VOC and COCO.
 
-In YOCO, please note we change the number of GPUs from 8 to 4.
+In YOCO, please note we changed the number of GPUs from 8 to 4.
 
 ### Instruction
 
