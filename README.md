@@ -15,7 +15,7 @@ Preprint
   year={2022}
 }
 ```
-YOCO cuts one image into two equal pieces, either in the height or the width dimension. The same data augmentations are performed independently within each piece. Augmented pieces are then concatenated together to form one single augmented image.
+YOCO cuts one image into two equal pieces, either in the height or the width dimension. The same data augmentations are performed independently within each piece. Augmented pieces are then concatenated together to form the final augmented image.
 <img src='imgs/aug_overview.png' align="middle" width=800>
 　  
    
