@@ -13,10 +13,10 @@ or image-level aug
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 \
 [your imagenet-folder with train and val folders]
 ```
-### CIFAR
+### CIFAR-100
 First
 ```
-cd cifar
+cd cifar100
 ```
 Run with YOCO
 ```
