@@ -16,7 +16,7 @@ python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-di
 ### CIFAR-100
 First
 ```
-cd cifar100
+cd cifar
 ```
 Run with YOCO
 ```
