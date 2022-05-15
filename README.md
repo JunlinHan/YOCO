@@ -1,5 +1,7 @@
 # You Only Cut Once (YOCO)
 
+**New**: YOCO accepted to ICML 2022! We will release our camera-ready version soon.
+
 YOCO is a simple method/strategy of performing augmentations, which enjoys the properties of parameter-free, easy usage, and boosting almost all augmentations for free (negligible computation & memory cost). We hope our study will attract the community’s attention in revisiting how to perform data augmentations. 
 
 [You Only Cut Once: Boosting Data Augmentation with a Single Cut](https://arxiv.org/abs/2201.12078)<br>
@@ -11,7 +13,7 @@ Preprint
 @inproceedings{han2022yoco,
   title={You Only Cut Once: Boosting Data Augmentation with a Single Cut},
   author={Junlin Han and Pengfei Fang and Weihao Li and Jie Hong and Mohammad Ali Armin and and Ian Reid and Lars Petersson and Hongdong Li},
-  booktitle={arXiv preprint arXiv:2201.12078},
+  booktitle={International Conference on Machine Learning (ICML)},
   year={2022}
 }
 ```
@@ -66,6 +68,6 @@ junlin.han@data61.csiro.au or junlinhcv@gmail.com
 If you tried YOCO in other tasks/datasets/augmentations, please feel free to let me know the results. They will be collected and presented in this repo, regardless of positive or negative. Many thanks!
 
 ## Acknowledgments
-Our code is developed based on [official PyTorch ImageNet training code](https://github.com/pytorch/examples/tree/master/imagenet) and [MoCo](https://github.com/facebookresearch/moco). 
+Our code is developed based on [official PyTorch ImageNet training code](https://github.com/pytorch/examples/tree/master/imagenet) and [MoCo](https://github.com/facebookresearch/moco). We thank anonymous reviewers for their invaluable feedback!
 
 
