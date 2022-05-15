@@ -7,7 +7,7 @@ YOCO is a simple method/strategy of performing augmentations, which enjoys the p
 [You Only Cut Once: Boosting Data Augmentation with a Single Cut](https://arxiv.org/abs/2201.12078)<br>
 [Junlin Han](https://junlinhan.github.io/), Pengfei Fang, Weihao Li, Jie Hong, Ali Armin, [Ian Reid](https://cs.adelaide.edu.au/~ianr/), [Lars Petersson](https://people.csiro.au/P/L/Lars-Petersson), [Hongdong Li](http://users.cecs.anu.edu.au/~hongdong/)<br>
 DATA61-CSIRO and Australian National University and University of Adelaide<br>
-Preprint
+International Conference on Machine Learning (ICML), 2022
 
 ```
 @inproceedings{han2022yoco,
