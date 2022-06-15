@@ -17,6 +17,7 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
+import numpy as np
 from models.resnet import resnet18
 from models.xception import xception
 from models.preactresnet import preactresnet18
@@ -30,8 +31,8 @@ model_names = sorted(name for name in models.__dict__
 parser = argparse.ArgumentParser(description='PyTorch CIFAR Training')
 parser.add_argument('--dataset', dest='dataset', default='cifar100', type=str,
                     help='dataset (options: cifar10, cifar100t)')
-parser.add_argument('--arch', metavar='ARCH', default='resnet50', type=str,
-                    help = 'models, choose from resnet18, xception, densenet121, resnext50, wideresnet')
+parser.add_argument('--arch', metavar='ARCH', default='resnet18', type=str,
+                    help = 'models, choose from resnet18, xception, densenet121, resnext50, wideresnet, vit')
 parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--epochs', default=300, type=int, metavar='N',
@@ -58,6 +59,8 @@ parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
                     help='evaluate model on validation set')
 parser.add_argument('-y', '--yoco', dest='yoco', action='store_true',
                     help='apply yoco')
+parser.add_argument('-m', '--mixup', dest='mixup', action='store_true',
+                    help='apply mixup, performed with YOCO')
 parser.add_argument('--pretrained', dest='pretrained', action='store_true',
                     help='use pre-trained model')
 parser.add_argument('--world-size', default=1, type=int,
@@ -148,6 +151,20 @@ def main_worker(gpu, ngpus_per_node, args):
             model = resnext50().cuda()
         if args.arch == 'wideresnet':
             model = wideresnet(depth=28).cuda()
+        if args.arch == "vit":
+            from models.vit_small import ViT
+            # ViT for cifar10
+            model = ViT(
+                image_size=32,
+                patch_size=4,
+                num_classes=10,
+                dim=512,
+                depth=6,
+                heads=8,
+                mlp_dim=512,
+                dropout=0.1,
+                emb_dropout=0.1
+            ).cuda()
         else:
             model = resnet18().cuda()
 
@@ -312,30 +329,27 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
             images = transforms1(images)
         images = normalize((images/255)).to(dtype=torch.float32)
 
-        # compute output, no mixup
-        output = model(images.contiguous())
-        loss = criterion(output, target)
-
-        # if mixup + YOCO, use this one instead
-
-        # if torch.rand(1) > 0.5:
-        #     input1 = images[:, : , 0:112, :]
-        #     input2 = images[:, : , 112:224, :]
-        #     id  = torch.randperm(images.size()[0]).cuda()
-        #     input1,lam1,target_a,target_b=mixup(input1,id,target)
-        #     input2,lam2,target_a,_=mixup(input2,id,target)
-        #     images = torch.cat((input1,input2), dim=2)
-        # else:
-        #     input1 = images[:, : , :, 0:112]
-        #     input2 = images[:, : , :, 112:224]
-        #     id  = torch.randperm(images.size()[0]).cuda()
-        #     input1,lam1,target_a,target_b=mixup(input1,id,target)
-        #     input2,lam2,target_a,_=mixup(input2,id,target)
-        #     images = torch.cat((input1,input2), dim=3)
-        #
-        # output = model(images.contiguous())
-        # lam = (lam1+lam2)/2
-        # loss = criterion(output, target_a) * lam + criterion(output, target_b) * (1. - lam)
+        if args.mixup:
+            if torch.rand(1) > 0.5:
+                input1 = images[:, : , 0:16, :]
+                input2 = images[:, : , 16:32, :]
+                id  = torch.randperm(images.size()[0]).cuda()
+                input1,lam1,target_a,target_b=mixup(input1,id,target)
+                input2,lam2,target_a,_=mixup(input2,id,target)
+                images = torch.cat((input1,input2), dim=2)
+            else:
+                input1 = images[:, : , :, 0:16]
+                input2 = images[:, : , :, 16:32]
+                id  = torch.randperm(images.size()[0]).cuda()
+                input1,lam1,target_a,target_b=mixup(input1,id,target)
+                input2,lam2,target_a,_=mixup(input2,id,target)
+                images = torch.cat((input1,input2), dim=3)
+            output = model(images.contiguous())
+            lam = (lam1+lam2)/2
+            loss = criterion(output, target_a) * lam + criterion(output, target_b) * (1. - lam)
+        else:
+            output = model(images.contiguous())
+            loss = criterion(output, target)
 
         # measure accuracy and record loss
         acc1, acc5 = accuracy(output, target, topk=(1, 5))
@@ -355,12 +369,11 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
         if i % args.print_freq == 0:
             progress.display(i)
 
-# uncomment this if mixup + YOCO
-# def mixup(input, rand_index,target):
-#     lam = np.random.beta(1, 1)
-#     target_b = target[rand_index]
-#     input = lam * input+ (1-lam) * input[rand_index, :]
-#     return input, lam, target, target_b
+def mixup(input, rand_index,target):
+    lam = np.random.beta(1, 1)
+    target_b = target[rand_index]
+    input = lam * input+ (1-lam) * input[rand_index, :]
+    return input, lam, target, target_b
 
 
 def validate(val_loader, model, criterion, args):

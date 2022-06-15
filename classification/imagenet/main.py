@@ -5,6 +5,7 @@ import shutil
 import time
 import warnings
 import sys
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -56,6 +57,8 @@ parser.add_argument('-e2', '--evaluate2', dest='evaluate2', action='store_true',
                     help='partial image recognition (non-overlapping 4 crop evaluation)')
 parser.add_argument('-y', '--yoco', dest='yoco', action='store_true',
                     help='apply yoco')
+parser.add_argument('-m', '--mixup', dest='mixup', action='store_true',
+                    help='apply mixup, performed with YOCO')
 parser.add_argument('--pretrained', dest='pretrained', action='store_true',
                     help='use pre-trained model')
 parser.add_argument('--world-size', default=1, type=int,
@@ -208,7 +211,7 @@ def main_worker(gpu, ngpus_per_node, args):
     valdir = os.path.join(args.data, 'val')
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
-    # modified
+    # modified, usually faster
     train_dataset = datasets.ImageFolder(
         traindir,
         transforms.Compose([
@@ -323,33 +326,27 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
             images = transforms1(images)
         images = normalize((images/255)).to(dtype=torch.float32)
 
-
-
-
-        # compute output, no mixup
-        output = model(images.contiguous())
-        loss = criterion(output, target)
-
-        # if mixup + YOCO, use this one instead
-
-        # if torch.rand(1) > 0.5:
-        #     input1 = images[:, : , 0:112, :]
-        #     input2 = images[:, : , 112:224, :]
-        #     id  = torch.randperm(images.size()[0]).cuda()
-        #     input1,lam1,target_a,target_b=mixup(input1,id,target)
-        #     input2,lam2,target_a,_=mixup(input2,id,target)
-        #     images = torch.cat((input1,input2), dim=2)
-        # else:
-        #     input1 = images[:, : , :, 0:112]
-        #     input2 = images[:, : , :, 112:224]
-        #     id  = torch.randperm(images.size()[0]).cuda()
-        #     input1,lam1,target_a,target_b=mixup(input1,id,target)
-        #     input2,lam2,target_a,_=mixup(input2,id,target)
-        #     images = torch.cat((input1,input2), dim=3)
-        #
-        # output = model(images.contiguous())
-        # lam = (lam1+lam2)/2
-        # loss = criterion(output, target_a) * lam + criterion(output, target_b) * (1. - lam)
+        if args.mixup:
+            if torch.rand(1) > 0.5:
+                input1 = images[:, : , 0:112, :]
+                input2 = images[:, : , 112:224, :]
+                id  = torch.randperm(images.size()[0]).cuda()
+                input1,lam1,target_a,target_b=mixup(input1,id,target)
+                input2,lam2,target_a,_=mixup(input2,id,target)
+                images = torch.cat((input1,input2), dim=2)
+            else:
+                input1 = images[:, : , :, 0:112]
+                input2 = images[:, : , :, 112:224]
+                id  = torch.randperm(images.size()[0]).cuda()
+                input1,lam1,target_a,target_b=mixup(input1,id,target)
+                input2,lam2,target_a,_=mixup(input2,id,target)
+                images = torch.cat((input1,input2), dim=3)
+            output = model(images.contiguous())
+            lam = (lam1+lam2)/2
+            loss = criterion(output, target_a) * lam + criterion(output, target_b) * (1. - lam)
+        else:
+            output = model(images.contiguous())
+            loss = criterion(output, target)
 
         # measure accuracy and record loss
         acc1, acc5 = accuracy(output, target, topk=(1, 5))
@@ -369,12 +366,12 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
         if i % args.print_freq == 0:
             progress.display(i)
 
-# uncomment this if mixup + YOCO
-# def mixup(input, rand_index,target):
-#     lam = np.random.beta(1, 1)
-#     target_b = target[rand_index]
-#     input = lam * input+ (1-lam) * input[rand_index, :]
-#     return input, lam, target, target_b
+
+def mixup(input, rand_index,target):
+    lam = np.random.beta(1, 1)
+    target_b = target[rand_index]
+    input = lam * input+ (1-lam) * input[rand_index, :]
+    return input, lam, target, target_b
 
 
 def validate(val_loader, model, criterion, args):

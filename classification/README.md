@@ -1,8 +1,12 @@
 ## Training
 The provided code is an example of applying YOCO to horizontal flip. Other augmentations are similar. 
-Mixup is written as comments inside the main.py. We use 4 gpus and 2 gpus for training on ImageNet and CIFAR, respectively.
+We use 4 gpus and 2 gpus for training on ImageNet and CIFAR, respectively.
 
 ### ImageNet
+First
+```
+cd imagenet
+```
 Run with YOCO
 ```
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 -y \
@@ -13,10 +17,20 @@ or image-level aug
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 \
 [your imagenet-folder with train and val folders]
 ```
-### CIFAR-100
+For YOCO + Mixup, run
+```
+python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 -m \
+[your imagenet-folder with train and val folders]
+```
+
+### CIFAR
 First
 ```
-cd cifar
+cd cifar100
+```
+or
+```
+cd cifar10
 ```
 Run with YOCO
 ```
@@ -26,7 +40,10 @@ or image-level aug
 ```
 python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 
 ```
-
+For YOCO + Mixup, run
+```
+python -W ignore main.py --dist-url 'tcp://localhost:10001' --multiprocessing-distributed --world-size 1 --rank 0 -m
+```
 ## Evaluation
 
 For partial image recognition, run 
