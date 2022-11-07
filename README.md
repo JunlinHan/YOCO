@@ -28,7 +28,7 @@ Applying YOCO is quite easy, here is a demo code of performing YOCO at the batch
 ```
 ***
 images: images to be augmented, here is tensor with (b,c,h,w) shape
-aug: composed augmentation operations
+aug: composed augmentation operations, we use horizontal flip here
 h: height of images
 w: width of images
 ***
@@ -45,6 +45,7 @@ for i, (images, target) in enumerate(train_loader):
     # perform augmentations with YOCO
     images = YOCO(images, aug, h, w) 
 ```
+You may use any [pytorch inbuilt augmentation operations](https://pytorch.org/vision/stable/transforms.html) to replace the horizontal flip operation. 
 
 ## Prerequisites
 
