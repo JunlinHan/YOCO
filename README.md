@@ -62,7 +62,7 @@ For each quadruplet, we show the original input image, augmented image from imag
 
 
 ## Contact
-junlin.han@data61.csiro.au or junlinhcv@gmail.com
+junlinhcv@gmail.com
 
 If you tried YOCO in other tasks/datasets/augmentations, please feel free to let me know the results. They will be collected and presented in this repo, regardless of positive or negative. Many thanks!
 
