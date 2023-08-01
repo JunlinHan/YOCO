@@ -1,6 +1,6 @@
 # You Only Cut Once (YOCO)
 
-YOCO is a simple method/strategy of performing augmentations, which enjoys the properties of parameter-free, easy usage, and boosting almost all augmentations for free (negligible computation & memory cost). We hope our study will attract the community’s attention in revisiting how to perform data augmentations. 
+YOCO is a simple method/strategy of performing augmentations, which enjoys the properties of parameter-free, easy usage, and boosting almost all augmentations for free (negligible computation & memory cost). 
 
 [You Only Cut Once: Boosting Data Augmentation with a Single Cut](https://arxiv.org/abs/2201.12078)<br>
 [Junlin Han](https://junlinhan.github.io/), Pengfei Fang, Weihao Li, Jie Hong, Ali Armin, [Ian Reid](https://cs.adelaide.edu.au/~ianr/), [Lars Petersson](https://people.csiro.au/P/L/Lars-Petersson), [Hongdong Li](http://users.cecs.anu.edu.au/~hongdong/)<br>
